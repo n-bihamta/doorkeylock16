@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:doorkeylock/main.dart';
 import 'package:http/http.dart';
 import 'package:imagebutton/imagebutton.dart';
+import 'package:platform_device_id/platform_device_id.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'LoginPage.dart';
@@ -30,7 +31,6 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(backgroundColor: Colors.pink[200], body: RegisterUI());
   }
 
@@ -38,11 +38,7 @@ class _RegisterState extends State<Register> {
     var name = getshare().then((value) => null);
     return Builder(
       builder: (context) => Stack(
-
         children: <Widget>[
-
-
-
           Center(
             child: SingleChildScrollView(
               padding: EdgeInsets.only(left: 40, right: 40),
@@ -50,11 +46,11 @@ class _RegisterState extends State<Register> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  
+                  Image.asset('assets/s5.png',
+                      height: 200,
+                      width: 250,
 
-
-
-
+                      ),
                   Padding(
                     padding: EdgeInsets.only(left: 50, top: 50),
                   ),
@@ -94,10 +90,14 @@ class _RegisterState extends State<Register> {
                               _usernameController.text.isEmpty ||
                               _usernameController.text == null) {
                             Scaffold.of(context).showSnackBar(SnackBar(
+                              backgroundColor: Colors.red[800],
+
                                 content: Text(
+
                               "لطفا ایمیل خود را وارد کنید",
                               style:
-                                  TextStyle(fontSize: 15, fontFamily: "Vazir"),
+                                  TextStyle(fontSize: 20, fontFamily: "Vazir"),
+                                  textAlign: TextAlign.center,
                             )));
                           } else {
                             sendRegisterRequest(
@@ -107,7 +107,6 @@ class _RegisterState extends State<Register> {
                           }
                         },
                         child: Container(
-
                           height: 50,
                           child: Center(
                             child: Text(
@@ -128,18 +127,16 @@ class _RegisterState extends State<Register> {
                     height: 50,
                   ),
                   Padding(
-
                     padding: EdgeInsets.only(left: 30, right: 30),
                     child: Material(
                         elevation: 20,
                         borderRadius: BorderRadius.circular(40),
-                        color: Colors.indigo,
+                        color: Colors.red[500],
                         child: InkWell(
                             onTap: () {
                               sendLogOutRequest(context: context);
                             },
                             child: Container(
-
                               height: 50,
                               child: Center(
                                 child: Text(
@@ -200,14 +197,16 @@ void sendRegisterRequest(
   print(email);
   print("****");
   var url =
-      "http://192.168.1.177:5050/Key/User/Open?username=mohammad.9875@gmail.com";
+      "http://192.168.1.177:5050/Key/User/Open?username="+username;
   var body = Map<String, dynamic>();
+  String deviceId = await PlatformDeviceId.getDeviceId;
+print(deviceId);
   // body["phone"]=phone;
   //body["email"]=email;
-  body["deviceId"] = username;
+  //body["deviceId"] = username;
   //body["password"] = password;
   Response response =
-      await post(url, headers: {"deviceId": "cb05fc95bc6a33a9"});
+      await post(url, headers: {"deviceId": deviceId});
   print("فراخوانی لاگین");
   print(response);
 

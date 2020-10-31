@@ -79,8 +79,6 @@ class _LoginWidgetState extends State<LoginWidget> {
 
                 children: <Widget>[
 
-                  Image.asset('assets/s5.png', height: 200, width: 250,fit: BoxFit.cover,alignment: Alignment.center),
-
 
                   Padding(
                     padding: EdgeInsets.only(left: 50, top: 50),
@@ -123,10 +121,12 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   usernameController.text.isEmpty ||
                                   usernameController.text == null) {
                                 Scaffold.of(context).showSnackBar(SnackBar(
+                                  backgroundColor:Colors.red[800],
                                     content: Text(
                                       "لطفا ایمیل خود را وارد کنید",
-                                      style: TextStyle(
-                                          fontSize: 15, fontFamily: "Vazir"),
+                                      style:
+                                      TextStyle(fontSize: 15, fontFamily: "Vazir"),
+                                      textAlign: TextAlign.center,
                                     )));
                               } else {
                                 sendLoginRequest(
@@ -296,6 +296,7 @@ void sendLoginRequest(
     if (model.Status == true) {
       SharedPreferences _sharedPrefs = await SharedPreferences.getInstance();
       _sharedPrefs.setString("key_username", username);
+
 
       Navigator.of(context).pushReplacement(PageRouteBuilder(
           transitionDuration: Duration(seconds: 2),

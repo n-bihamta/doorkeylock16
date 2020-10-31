@@ -175,10 +175,12 @@ class _LoginWidgetState extends State<LoginWidget_main> {
                                   _usernameController.text.isEmpty ||
                                   _usernameController.text == null) {
                                 Scaffold.of(context).showSnackBar(SnackBar(
+                                  backgroundColor: Colors.red[800],
                                     content: Text(
                                       "لطفا ایمیل خود را وارد کنید",
                                       style: TextStyle(
-                                          fontSize: 15, fontFamily: "Vazir"),
+                                          fontSize: 20, fontFamily: "Vazir"),
+                                      textAlign: TextAlign.center,
                                     )));
                               } else {
                                 sendLoginRequest(
@@ -287,7 +289,7 @@ Future<void> sendLogOutRequest({BuildContext context, String username}) async {
 
 void sendLoginRequest(
     {@required BuildContext context, @required String username}) async {
-  var url = "http://192.168.1.177:5050/Key/User/Login?username=mohammad.9875@gmail.com";
+  var url = "http://192.168.1.177:5050/Key/User/Login?username="+username;
 
 
   print(username);
@@ -296,7 +298,7 @@ void sendLoginRequest(
   //body["deviceId"] =deviceId;
 
   Response response =
-      await post(url, headers: {"deviceId": "cb05fc95bc6a33a9"});
+      await post(url, headers: {"deviceId":deviceId});
 
   print("**********");
   print(deviceId);
@@ -307,7 +309,9 @@ void sendLoginRequest(
     var Loginjson = json.decode(utf8.decode(response.bodyBytes));
 
     var model = LoginResponseModel(Loginjson["Status"], Loginjson["Message"]);
-
+    print("&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+    print(model.Status);
+    print("&&&&&&&&&&&&&&&&&&&&&&&&&&&");
     if (model.Status == false) {
       var connectivityResult = await (Connectivity().checkConnectivity());
       if (connectivityResult == ConnectivityResult.none) {
@@ -345,13 +349,14 @@ void sendLoginRequest(
     } else {
 //error
       Scaffold.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.red[700],
         content: Text(
-          "مشکل در وزود و داده" + username + deviceId,
+          "ایمیل شما ثبت شد منتظر تایید مدیریت می باشد",
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,fontFamily: "Vazir"),
         ),
         duration: Duration(seconds: 2),
-        backgroundColor: Colors.indigoAccent,
+
       ));
     }
   } else {
