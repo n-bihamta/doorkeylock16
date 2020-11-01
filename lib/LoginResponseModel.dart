@@ -5,6 +5,7 @@ class LoginResponseModel{
 
   LoginResponseModel(this._Status, this._Message);
 
+  
   bool get Status => _Status;
 
 
